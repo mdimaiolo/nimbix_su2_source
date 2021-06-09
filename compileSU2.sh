@@ -11,7 +11,7 @@ Compiled binaries can be found at /install/. Mount that directory for access.
 Note: If you specify a working directory using the --workdir option for docker, 
       append this directory to all paths above (e.g. use --workdir=/tmp if running in user mode)."
 
-flags=""
+flags="-Denable-autodiff=true -Denable-directdiff=true -Denable-pywrapper=true -Dwith-mpi=enabled -Dwith-omp=true"
 branch=""
 workdir=$PWD
 
@@ -21,10 +21,10 @@ if [ "$#" -ne 0 ]; then
   while [ "$(echo $1 | cut -c1)" = "-" ]
     do
         case "$1" in
-            -f)
-                    flags=$2
-                    shift 2
-                ;;  
+#            -f)
+#                    flags=$2
+#                    shift 2
+#                ;;  
             -b)
                     branch=$2
                     shift 2
