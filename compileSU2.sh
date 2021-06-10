@@ -21,10 +21,10 @@ if [ "$#" -ne 0 ]; then
   while [ "$(echo $1 | cut -c1)" = "-" ]
     do
         case "$1" in
-#            -f)
-#                    flags=$2
-#                    shift 2
-#                ;;  
+            -f)
+                    flags=$2
+                    shift 2
+                ;;  
             -b)
                     branch=$2
                     shift 2
@@ -68,4 +68,13 @@ fi
 
 ./ninja -C docker_build install
 
+#export MPICC=/usr/bin/mpicc
+#export MPICXX=/usr/bin/mpicxx
+#export CC=$MPICC
+#export CXX=$MPICXX
+#export SU2_RUN=/usr/local/bin
+#export SU2_HOME=/home/nimbix/SU2
+#export PATH=$PATH:$SU2_RUN
+#export PYTHONPATH=$PYTHONPATH:$SU2_RUN
+#export SU2_MPI_COMMAND="mpi --use-hwthread-cpus -np %i %s"
 

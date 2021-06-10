@@ -21,5 +21,10 @@ RUN apt-get update && apt-get install -y \
 # Copies your code file from your action repository to the filesystem path `/` of the container
 COPY compileSU2.sh /compileSU2.sh
 
+# Ensure execute permissions are set on compileSU2.sh
+USER root
+RUN	chmod 777 /compileSU2.sh
+USER nimbix
+
 # Code file to execute when the docker container starts up (`entrypoint.sh`)
 ENTRYPOINT ["/compileSU2.sh"]
