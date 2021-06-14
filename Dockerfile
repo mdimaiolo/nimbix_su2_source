@@ -16,6 +16,8 @@ RUN apt-get update && apt-get install -y \
     swig \
     python3-numpy \
     python3-scipy
+	
+RUN apt remove -y mpich
 
 # Copy from nimbix/image-common
 RUN apt-get -y update && \
