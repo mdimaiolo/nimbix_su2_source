@@ -139,6 +139,9 @@ if [ ! -d nimbix_build ]; then
 
 				# Install with ninja
 				./ninja -C nimbix_build install
+				
+				break
+				
 			fi	
 
 		fi
@@ -150,7 +153,7 @@ else
 	su2_env_vars
 fi
 
-#sudo ln -s /usr/bin/python3 /usr/bin/python
+sudo ln -s /usr/bin/python3 /usr/bin/python
 
 cd /data/SU2
 
