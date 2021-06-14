@@ -42,7 +42,7 @@ if [ ! -d nimbix_build ]; then
 			
 			# Compile with meson
 			# (note that meson adds 'bin' to the --prefix directory during build)
-			./meson.py nimbix_build $flags --prefix=/usr/local |& tee -a build_log.txt
+			./meson.py nimbix_build $flags --prefix=$wkdir/install |& tee -a build_log.txt
 			
 			# Verify CC env var
 			if grep -q "Using 'CC' from environment with value:" build_log.txt; then
@@ -129,7 +129,7 @@ if [ ! -d nimbix_build ]; then
 				echo "Meson build verified."
 			
 				export SU2_HOME=/data/SU2
-				export SU2_RUN=/usr/local/bin
+				export SU2_RUN=$wkdir/install
 				export PATH=$PATH:$SU2_RUN
 				export PYTHONPATH=$PYTHONPATH:$SU2_RUN
 
