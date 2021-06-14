@@ -1,5 +1,12 @@
 #! /bin/bash
 
+su2_env_vars () {
+    export SU2_HOME=/usr/local/SU2
+    export SU2_RUN=/usr/local/SU2/install/bin
+    export PATH=$PATH:$SU2_RUN
+    export PYTHONPATH=$PYTHONPATH:$SU2_RUN
+}
+
 # Ensure the current working directory
 wkdir=/usr/local/SU2
 cd $wkdir
@@ -128,10 +135,7 @@ if [ ! -d nimbix_build ]; then
 			
 				echo "Meson build verified."
 			
-				export SU2_HOME=/usr/local/SU2
-				export SU2_RUN=/usr/local/SU2/install/bin
-				export PATH=$PATH:$SU2_RUN
-				export PYTHONPATH=$PYTHONPATH:$SU2_RUN
+				su2_env_vars
 
 				# Install with ninja
 				./ninja -C nimbix_build install
@@ -143,6 +147,7 @@ if [ ! -d nimbix_build ]; then
 
 else
 	echo "SU2 previously compile successfully."
+	su2_env_vars
 fi
 
 #sudo ln -s /usr/bin/python3 /usr/bin/python
