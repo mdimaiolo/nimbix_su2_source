@@ -128,8 +128,8 @@ if [ ! -d nimbix_build ]; then
 			
 				echo "Meson build verified."
 			
-				export SU2_HOME=/data/SU2
-				export SU2_RUN=$wkdir/install
+				export SU2_HOME=/usr/local/SU2
+				export SU2_RUN=/usr/local/SU2/install/bin
 				export PATH=$PATH:$SU2_RUN
 				export PYTHONPATH=$PYTHONPATH:$SU2_RUN
 
