@@ -7,9 +7,9 @@ RUN apt-get update && apt-get install -y \
     python3-pip \
     git \
     build-essential \
-	gcc \
-	g++ \
-	python3-setuptools \
+    gcc \
+    g++ \
+    python3-setuptools \
     libopenmpi-dev \
     openmpi-bin \
     python3-mpi4py \
