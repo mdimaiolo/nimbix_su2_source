@@ -34,14 +34,12 @@ WORKDIR /usr/local
 
 # Create a directory to compile SU2
 RUN mkdir -p /usr/local/SU2
-RUN mkdir -p /usr/local/nimbix_su2
 
 # Add all source files to the newly created directory
 ADD --chown=root:root ./ /usr/local/SU2
 
 # Ensure full access
 RUN sudo chmod -R 0777 /usr/local/SU2
-RUN sudo chmod -R 0777 /usr/local/nimbix_su2
 
 # Save Nimbix AppDef
 COPY ./NAE/AppDef.json /etc/NAE/AppDef.json
