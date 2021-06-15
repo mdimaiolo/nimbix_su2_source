@@ -161,8 +161,5 @@ while [[ -n "$1" ]]; do
     shift
 done
 
-# Build the path to the bash file
-BASH_RUN="$SU2_DATA/$BASH_FILE"
-
 # Call the bash file
-$BASH_RUN
+$BASH_FILE
