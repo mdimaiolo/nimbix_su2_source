@@ -115,6 +115,7 @@ while [ "$build_counter" -le 3 ] || [ "$verified" = false ]; do
 	
 		echo "Meson build verified."
 	
+	    export SU2_DATA=/data/SU2
 	    export SU2_HOME=/usr/local/SU2
         export SU2_RUN=/usr/local/SU2/install/bin
         export PATH=$PATH:$SU2_RUN
@@ -148,3 +149,12 @@ cd /data/SU2
 
 # Provide permission to run bash file in /data directory
 sudo chmod -R 0777 /data/SU2
+
+# Get bash filename from session initialization
+BASH_FILE="$1"
+
+# Build the path to the bash file
+BASH_RUN="$SU2_DATA/$BASH_FILE"
+
+# Call the bash file
+$BASH_RUN
