@@ -21,13 +21,13 @@
         "Batch": {
             "path": "/usr/local/SU2/init/init.sh",
             "interactive": false,
-            "name": "Batch",
+            "name": "SU2 Batch",
             "description": "Run a batch command using /bin/bash.  Path must be specified within /data/SU2.",
             "parameters": {
                 "-file": {
-                    "name": "Bash file(s) from /data/SU2",
-                    "description": "Bash file to run",
-                    "type": "FILE"
+                    "name": "Bash file from /data/SU2",
+                    "type": "FILE",
+					"required": true
                 }
             }
         },
