@@ -131,7 +131,7 @@ if [ ! -d $wkdir/nimbix_build ]; then
 			su2_env_vars
 
 			# Install with ninja
-			./ninja -C cd nimbix_build install
+			./ninja -C nimbix_build install
 			
 			build_counter=10
 			
