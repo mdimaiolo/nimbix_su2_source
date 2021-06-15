@@ -160,7 +160,7 @@ while [[ -n "$1" ]]; do
 	    shift
         BASH_FILE="$1"
 		;;
-	shift
+    shift
 done
 
 # Build the path to the bash file
