@@ -9,7 +9,7 @@ su2_env_vars () {
 
 # Ensure the current working directory
 su2dir=/usr/local/SU2
-wkdir=/usr/local
+wkdir=/usr/local/nimbix_su2
 cd $su2dir
 
 # Set the inital environmental variables
@@ -30,118 +30,114 @@ if [ ! -d $wkdir/nimbix_build ]; then
     verified=false
     build_counter=0
 	
-	while [ $build_counter -le 3 ]; do
+	while [ "$build_counter" -le 3 ] || [ "$verified" = false ]; do
 	
 		# Keep track of the build attempts to prevent an infinite loop
 		((build_counter++))
-	
-		while [ "$verified" = false ]; do
 				
-				# Create a directory for meson
-				mkdir -p $wkdir/nimbix_su2
-				sudo chown -R root:root $wkdir/nimbix_su2
-				sudo chmod -R 0777 $wkdir/nimbix_su2
-				
-				# Compile with meson
-				# (note that meson adds 'bin' to the --prefix directory during build)
-				./meson.py $wkdir/nimbix_su2 $flags --prefix=$wkdir/nimbix_su2/install |& tee -a build_log.txt
-				
-				# Verify CC env var
-				if grep -q "Using 'CC' from environment with value:" build_log.txt; then
-					verified=true
-				else
-					verified=false
-				fi
-				# Verify CXX env var
-				if grep -q "Using 'CXX' from environment with value:" build_log.txt; then
-					verified=true
-				else
-					verified=false
-				fi
-				# Verify C compiler
-				if grep -q "C compiler for the host machine:" build_log.txt; then
-					verified=true
-				else
-					verified=false
-				fi
-				# Verify C linker
-				if grep -q "C linker for the host machine:" build_log.txt; then
-					verified=true
-				else
-					verified=false
-				fi
-				# Verify C++ compiler
-				if grep -q "C++ compiler for the host machine:" build_log.txt; then
-					verified=true
-				else
-					verified=false
-				fi
-				# Verify C++ linker
-				if grep -q "C++ linker for the host machine:" build_log.txt; then
-					verified=true
-				else
-					verified=false
-				fi
-				# Verify python3
-				if grep -q "Program python3 found: YES" build_log.txt; then
-					verified=true
-				else
-					verified=false
-				fi
-				# Verify swig
-				if grep -q "Program swig found: YES" build_log.txt; then
-					verified=true
-				else
-					verified=false
-				fi
-				# Verify mpi4py
-				if grep -q "Using mpi4py from" build_log.txt; then
-					verified=true
-				else
-					verified=false
-				fi
-				# Verify pkg-config
-				if grep -q "Found pkg-config:" build_log.txt; then
-					verified=true
-				else
-					verified=false
-				fi
-				# Verify python
-				if grep -q "Dependency python found: YES" build_log.txt; then
-					verified=true
-				else
-					verified=false
-				fi
-				# Verify install.sh
-				if grep -q "Program install.sh found: YES" build_log.txt; then
-					verified=true
-				else
-					verified=false
-				fi	
+		# Create a directory for meson
+		mkdir -p $wkdir/nimbix_build
+		sudo chown -R root:root $wkdir/nimbix_build
+		sudo chmod -R 0777 $wkdir/nimbix_build
+		
+		# Compile with meson
+		# (note that meson adds 'bin' to the --prefix directory during build)
+		./meson.py $wkdir/nimbix_build $flags --prefix=$wkdir/install |& tee -a build_log.txt
+		
+		# Verify CC env var
+		if grep -q "Using 'CC' from environment with value:" build_log.txt; then
+			verified=true
+		else
+			verified=false
+		fi
+		# Verify CXX env var
+		if grep -q "Using 'CXX' from environment with value:" build_log.txt; then
+			verified=true
+		else
+			verified=false
+		fi
+		# Verify C compiler
+		if grep -q "C compiler for the host machine:" build_log.txt; then
+			verified=true
+		else
+			verified=false
+		fi
+		# Verify C linker
+		if grep -q "C linker for the host machine:" build_log.txt; then
+			verified=true
+		else
+			verified=false
+		fi
+		# Verify C++ compiler
+		if grep -q "C++ compiler for the host machine:" build_log.txt; then
+			verified=true
+		else
+			verified=false
+		fi
+		# Verify C++ linker
+		if grep -q "C++ linker for the host machine:" build_log.txt; then
+			verified=true
+		else
+			verified=false
+		fi
+		# Verify python3
+		if grep -q "Program python3 found: YES" build_log.txt; then
+			verified=true
+		else
+			verified=false
+		fi
+		# Verify swig
+		if grep -q "Program swig found: YES" build_log.txt; then
+			verified=true
+		else
+			verified=false
+		fi
+		# Verify mpi4py
+		if grep -q "Using mpi4py from" build_log.txt; then
+			verified=true
+		else
+			verified=false
+		fi
+		# Verify pkg-config
+		if grep -q "Found pkg-config:" build_log.txt; then
+			verified=true
+		else
+			verified=false
+		fi
+		# Verify python
+		if grep -q "Dependency python found: YES" build_log.txt; then
+			verified=true
+		else
+			verified=false
+		fi
+		# Verify install.sh
+		if grep -q "Program install.sh found: YES" build_log.txt; then
+			verified=true
+		else
+			verified=false
+		fi	
 
-				# Re-run meson if compile not verified
-				if [ "$verified" = false ]; then
-				
-					# Remove the nimbix_build directory 
-					echo "Meson build unverified. Removing nimbix_build directory."
-					sudo rm -R $wkdir/nimbix_su2
-					
-				elif [ "$verified" = true ]; then
-				
-					echo "Meson build verified."
-				
-					su2_env_vars
+		# Re-run meson if compile not verified
+		if [ "$verified" = false ]; then
+		
+			# Remove the nimbix_build directory 
+			echo "Meson build unverified. Removing nimbix_build directory."
+			sudo rm -R $wkdir/nimbix_build
+			
+		elif [ "$verified" = true ]; then
+		
+			echo "Meson build verified."
+		
+			su2_env_vars
 
-					# Install with ninja
-					./SU2/ninja -C cd $su2dir/nimbix_su2 install
-					
-					build_counter=10
-					
-					break
-					
-				fi	
-
-		done
+			# Install with ninja
+			./SU2/ninja -C cd $wkdir/nimbix_build install
+			
+			build_counter=10
+			
+			break
+			
+		fi	
 		
     done
 	
