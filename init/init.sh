@@ -150,9 +150,6 @@ cd /data/SU2
 # Provide permission to run bash file in /data directory
 sudo chmod -R 0777 /data/SU2
 
-# Source the JARVICE job environment variables
-[[ -r /etc/JARVICE/jobenv.sh ]] && source /etc/JARVICE/jobenv.sh
-
 # Get bash filename from session initialization
 while [[ -n "$1" ]]; do
     case "$1" in
