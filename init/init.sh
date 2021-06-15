@@ -2,7 +2,7 @@
 
 su2_env_vars () {
     export SU2_HOME=/usr/local/SU2
-    export SU2_RUN=/usr/local/SU2/install/bin
+    export SU2_RUN=/usr/local/nimbix_su2/install/bin
     export PATH=$PATH:$SU2_RUN
     export PYTHONPATH=$PYTHONPATH:$SU2_RUN
 }
@@ -21,7 +21,7 @@ export CXX=$MPICXX
 # Check if SU2 has already been compiled & installed
 if [ ! -d $wkdir/nimbix_build ]; then
     echo "SU2 install not found."
-    echo "SU2 v7.1.1 Compilation and Install for NIMBIX"
+    echo "SU2 v7.1.1 compilate and install for NIMBIX"
 
     # Set the appropriate flags for the desired install options
     flags="-Dcustom-mpi=true -Denable-pywrapper=true -Denable-autodiff=true -Denable-directdiff=true"
@@ -131,7 +131,7 @@ if [ ! -d $wkdir/nimbix_build ]; then
 			su2_env_vars
 
 			# Install with ninja
-			./SU2/ninja -C cd $wkdir/nimbix_build install
+			./ninja -C cd nimbix_build install
 			
 			build_counter=10
 			
