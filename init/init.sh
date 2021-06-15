@@ -1,6 +1,6 @@
 #! /bin/bash
 
-su2_env_vars () {
+function su2_env_vars () {
     export SU2_HOME=/usr/local/SU2
     export SU2_RUN=/usr/local/nimbix_su2/install/bin
     export PATH=$PATH:$SU2_RUN
@@ -36,7 +36,7 @@ if [ ! -d $wkdir/install ]; then
 		((build_counter++))
 				
 		# Create a directory for meson
-		mkdir -p $wkdir/nimbix_build
+		sudo mkdir -p $wkdir/nimbix_build
 		sudo chown -R root:root $wkdir
 		sudo chmod -R 0777 $wkdir
 		
