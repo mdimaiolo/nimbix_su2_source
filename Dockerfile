@@ -38,7 +38,6 @@ RUN mkdir -p /usr/local/nimbix_su2
 
 # Add all source files to the newly created directory
 ADD --chown=root:root ./ /usr/local/SU2
-ADD --chown=root:root ./README.md /usr/local/nimbix_su2
 
 # Ensure full access
 RUN sudo chmod -R 0777 /usr/local/SU2

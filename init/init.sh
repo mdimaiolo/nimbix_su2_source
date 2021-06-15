@@ -19,9 +19,9 @@ export CC=$MPICC
 export CXX=$MPICXX
 
 # Check if SU2 has already been compiled & installed
-if [ ! -d $wkdir/nimbix_build ]; then
+if [ ! -d $wkdir/install ]; then
     echo "SU2 install not found."
-    echo "SU2 v7.1.1 compilate and install for NIMBIX"
+    echo "SU2 v7.1.1 compile and install for NIMBIX."
 
     # Set the appropriate flags for the desired install options
     flags="-Dcustom-mpi=true -Denable-pywrapper=true -Denable-autodiff=true -Denable-directdiff=true"
@@ -37,8 +37,8 @@ if [ ! -d $wkdir/nimbix_build ]; then
 				
 		# Create a directory for meson
 		mkdir -p $wkdir/nimbix_build
-		sudo chown -R root:root $wkdir/nimbix_build
-		sudo chmod -R 0777 $wkdir/nimbix_build
+		sudo chown -R root:root $wkdir
+		sudo chmod -R 0777 $wkdir
 		
 		# Compile with meson
 		# (note that meson adds 'bin' to the --prefix directory during build)
@@ -154,10 +154,12 @@ else
 	su2_env_vars
 fi
 
+# Symlink python directories
 sudo ln -s /usr/bin/python3 /usr/bin/python
 
 echo "Changing to /data/SU2 directory to begin data processing."
 
 cd /data/SU2
 
+# Provide permission to run bash file in /data directory
 sudo chmod -R 0777 /data/SU2
