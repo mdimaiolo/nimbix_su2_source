@@ -32,7 +32,7 @@ EXPOSE 22
 # Change working directory
 WORKDIR /usr/local
 
-# Create a directory to compile SU2 - this will later have a symbolic link created to it
+# Create a directory to compile SU2
 RUN mkdir -p /usr/local/SU2
 RUN mkdir -p /usr/local/nimbix_su2
 
