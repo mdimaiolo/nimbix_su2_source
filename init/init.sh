@@ -160,6 +160,7 @@ while [[ -n "$1" ]]; do
 	    shift
         BASH_FILE="$1"
 		;;
+	esac
     shift
 done
 
