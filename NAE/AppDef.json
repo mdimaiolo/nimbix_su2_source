@@ -1,8 +1,8 @@
 {
     "name": "SU2",
     "description": "Multiphysics Simulation and Design Software",
-    "author": "Matthew DiMaiolo",
-    "licensed": false,
+    "author": "SU2 Foundation",
+    "licensed": true,
     "classifications": [
         "Simulation",
         "Simulation/Computational Fluid Dynamics",
