@@ -9,9 +9,10 @@ export MPICC=/usr/bin/mpicc
 export MPICXX=/usr/bin/mpicxx
 export CC=$MPICC
 export CXX=$MPICXX
+export CXXFLAGS="-O2 -funroll-loops -march=cascadelake -mtune=cascadelake"
 
 # Set the appropriate flags for the desired install options
-flags="-Dcustom-mpi=true -Denable-pywrapper=true -Denable-autodiff=true -Denable-directdiff=true"
+flags="-Dcustom-mpi=true -Denable-pywrapper=true -Denable-autodiff=true -Denable-directdiff=true -Denable-mixedprec=true"
 
 # Compile and verify the above flags compiled correctly
 verified=false
@@ -115,11 +116,14 @@ while [ "$build_counter" -le 3 ] || [ "$verified" = false ]; do
 	
 		echo "Meson build verified."
 	
+	    # Set environmental variables from meson build
 	    export SU2_DATA=/data
 	    export SU2_HOME=/usr/local/SU2
         export SU2_RUN=/usr/local/SU2/install/bin
         export PATH=$PATH:$SU2_RUN
         export PYTHONPATH=$PYTHONPATH:$SU2_RUN
+		# Set environmental variable to allow multi-node use
+		export SU2_MPI_COMMAND="mpirun --hostfile /etc/JARVICE/nodes -np %i %s"
 
 		# Install with ninja
 		./ninja -C nimbix_build install
@@ -142,6 +146,19 @@ fi
 
 # Symlink python directories
 sudo ln -s /usr/bin/python3 /usr/bin/python
+
+echo "Verifying all nodes are active."
+
+# Wait for nodes to start
+node_timer=300
+/usr/local/JARVICE/tools/bin/python_ssh_test ${node_timer}
+err=$?
+if [[ ${err} -gt 0 ]]; then
+    echo "One or more nodes failed to start" 1>&2
+    exit ${err}
+else
+    echo "All nodes active."
+fi
 
 echo "Changing to /data/SU2 directory to begin data processing."
 

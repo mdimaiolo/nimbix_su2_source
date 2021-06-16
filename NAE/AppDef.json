@@ -9,7 +9,7 @@
         "Simulation/Multiphysics"
     ],
     "machines": [
-        "*"
+        "n9"
     ],
     "vault-types": [
         "FILE",

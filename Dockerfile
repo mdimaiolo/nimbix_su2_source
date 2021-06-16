@@ -43,6 +43,7 @@ RUN sudo chmod -R 0777 /usr/local/SU2
 
 # Save Nimbix AppDef
 COPY ./NAE/AppDef.json /etc/NAE/AppDef.json
+COPY ./NAE/SU2logo.png /etc/NAE/SU2logo.png
 
 # This is a marker - the actual init.sh call is in AppDef.json
 CMD /usr/local/SU2/init/init.sh
