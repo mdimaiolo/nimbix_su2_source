@@ -151,11 +151,11 @@ echo "Verifying all nodes are active."
 
 # Wait for nodes to start
 node_timer=300
-/usr/local/JARVICE/tools/bin/python_ssh_test ${node_timer}
+/usr/local/JARVICE/tools/bin/python_ssh_test "$node_timer"
 err=$?
-if [[ ${err} -gt 0 ]]; then
+if [[ "$err" -gt 0 ]]; then
     echo "One or more nodes failed to start" 1>&2
-    exit ${err}
+    exit "$err"
 else
     echo "All nodes active."
 fi
