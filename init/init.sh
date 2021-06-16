@@ -1,5 +1,8 @@
 #! /bin/bash
 
+# Source the JARVICE job environment variables
+[[ -r /etc/JARVICE/jobenv.sh ]] && source /etc/JARVICE/jobenv.sh
+
 # Ensure the current working directory
 wkdir=/usr/local/SU2
 cd $wkdir

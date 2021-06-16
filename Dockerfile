@@ -46,7 +46,6 @@ RUN sudo chmod -R 0777 /usr/local/SU2
 # Save Nimbix AppDef
 COPY ./NAE/AppDef.json /etc/NAE/AppDef.json
 COPY ./NAE/SU2logo.png /etc/NAE/SU2logo.png
-COPY ./license.txt /etc/NAE/license.txt
 
 # Call init.sh to compile and install SU2, verify all nodes are active, and begin solving
 CMD ["/usr/local/SU2/init/init.sh"]
