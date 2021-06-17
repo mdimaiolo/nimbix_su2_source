@@ -41,6 +41,10 @@ done
 echo "Compiling SU2 on main node"
 
 /usr/local/SU2/init/compile_SU2.sh
+# Ensure primary environmental variables are stored in .bashrc
+echo "export SU2_DATA=/data" >> ~/.bashrc
+echo "export SU2_HOME=/usr/local/SU2" >> ~/.bashrc
+echo "export SU2_RUN=/usr/local/SU2/install/bin" >> ~/.bashrc
 
 # Wait for all nodes to complete compilation
 nodes_ready=1

@@ -8,11 +8,11 @@ wkdir=/usr/local/SU2
 cd $wkdir
 
 # Set the initial environmental variables
-echo "export MPICC=/usr/bin/mpicc" >> ~/.bashrc
-echo "export MPICXX=/usr/bin/mpicxx" >> ~/.bashrc
-echo "export CC=$MPICC" >> ~/.bashrc
-echo "export CXX=$MPICXX" >> ~/.bashrc
-echo "export CXXFLAGS="-O2 -funroll-loops -march=native -mtune=native"" >> ~/.bashrc
+export MPICC=/usr/bin/mpicc
+export MPICXX=/usr/bin/mpicxx
+export CC=$MPICC
+export CXX=$MPICXX
+export CXXFLAGS="-O2 -funroll-loops -march=native -mtune=native"
 
 # Set the appropriate flags for the desired install options
 flags="-Dcustom-mpi=true -Denable-pywrapper=true -Denable-autodiff=true -Denable-directdiff=true -Denable-mixedprec=true"
@@ -120,13 +120,13 @@ while [ "$build_counter" -le 3 ] || [ "$verified" = false ]; do
 		echo "Meson build verified."
 	
 	    # Set environmental variables from meson build
-	    echo "export SU2_DATA=/data" >> ~/.bashrc
-	    echo "export SU2_HOME=/usr/local/SU2" >> ~/.bashrc
-        echo "export SU2_RUN=/usr/local/SU2/install/bin" >> ~/.bashrc
-        echo "export PATH=$PATH:$SU2_RUN" >> ~/.bashrc
-        echo "export PYTHONPATH=$PYTHONPATH:$SU2_RUN" >> ~/.bashrc
+	    export SU2_DATA=/data
+	    export SU2_HOME=/usr/local/SU2
+        export SU2_RUN=/usr/local/SU2/install/bin
+        export PATH=$PATH:$SU2_RUN
+        export PYTHONPATH=$PYTHONPATH:$SU2_RUN
         # Set environmental variable to allow multi-node use
-        echo "export SU2_MPI_COMMAND="mpirun --hostfile /etc/JARVICE/nodes -np %i %s"" >> ~/.bashrc
+        export SU2_MPI_COMMAND="mpirun --hostfile /etc/JARVICE/nodes -np %i %s"
 
 		# Install with ninja
 		./ninja -C nimbix_build install
