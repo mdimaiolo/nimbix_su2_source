@@ -1,5 +1,8 @@
 #! /bin/bash
 
+# Symlink python directories
+sudo ln -s /usr/bin/python3 /usr/bin/python
+
 echo "Verifying all nodes are active."
 
 # start SSHd
@@ -160,9 +163,6 @@ if [ $build_counter -eq 4 ]; then
 	exit 1
 
 fi
-
-# Symlink python directories
-sudo ln -s /usr/bin/python3 /usr/bin/python
 
 echo "Changing to /data/SU2 directory to begin data processing."
 
