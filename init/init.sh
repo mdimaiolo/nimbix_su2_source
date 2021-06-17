@@ -41,6 +41,15 @@ done
 echo "Compiling SU2 on main node"
 /usr/local/SU2/init/compile_SU2.sh
 
+# Ensure key environmental variables are set
+export SU2_DATA=/data
+export SU2_HOME=/usr/local/SU2
+export SU2_RUN=/usr/local/SU2/install/bin
+export PATH=$PATH:$SU2_RUN
+export PYTHONPATH=$PYTHONPATH:$SU2_RUN
+# Set environmental variable to allow multi-node use
+export SU2_MPI_COMMAND="mpirun --hostfile /etc/JARVICE/nodes -np %i %s"
+
 # Wait for all nodes to complete compilation
 nodes_ready=1
 SECONDS=0
