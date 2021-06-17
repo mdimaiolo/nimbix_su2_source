@@ -6,7 +6,7 @@ echo "Compiling SU2 on compute nodes"
 while read node; do
     echo "Initializing $node"
     if [ "$node" != "$HOSTNAME" ]; then
-        ssh $node "/usr/local/SU2/init/compile_SU2.sh" &
+        ssh "$node" "/usr/local/SU2/init/compile_SU2.sh" &
     fi
 done < /etc/JARVICE/nodes
 
@@ -14,11 +14,10 @@ done < /etc/JARVICE/nodes
 echo "Compiling SU2 on main node"
 
 /usr/local/SU2/init/compile_SU2.sh
-echo "$HOSTNAME" | cat >> /tmp/node_ready_status.txt
 
 # Wait for all nodes to complete compilation
 node_count=$(wc -l < "/etc/JARVICE/nodes")
-nodes_ready=0
+nodes_ready=1
 SECONDS=0
 while [ "$nodes_ready" -lt "$node_count" ]; do  
 	if [ "$SECONDS" -gt 60 ]; then
@@ -27,7 +26,15 @@ while [ "$nodes_ready" -lt "$node_count" ]; do
 		exit 1
 	fi
 	sleep 5s
-	nodes_ready=$(wc -l < "/tmp/node_ready_status.txt")
+	while read node; do
+        echo "Checking $node status"
+        if [ "$node" != "$HOSTNAME" ]; then
+            ssh "$node" "test -e /tmp/node_ready_status.txt"
+		    if [ $? -eq 0 ]; then
+			    ((nodes_ready++))
+			fi
+        fi
+    done < /etc/JARVICE/nodes
 done
 
 echo "All nodes initialized."
@@ -50,4 +57,4 @@ while [[ -n "$1" ]]; do
 done
 
 # Call the bash file
-$BASH_FILE
+"$BASH_FILE"

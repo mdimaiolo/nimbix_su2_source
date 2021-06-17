@@ -5,13 +5,13 @@ sudo ln -s /usr/bin/python3 /usr/bin/python
 
 # Ensure the current working directory
 wkdir=/usr/local/SU2
-cd $wkdir
+cd "$wkdir"
 
-# Set the inital environmental variables
+# Set the initial environmental variables
 export MPICC=/usr/bin/mpicc
 export MPICXX=/usr/bin/mpicxx
-export CC=$MPICC
-export CXX=$MPICXX
+export CC="$MPICC"
+export CXX="$MPICXX"
 export CXXFLAGS="-O2 -funroll-loops -march=native -mtune=native"
 
 # Set the appropriate flags for the desired install options
@@ -27,13 +27,13 @@ while [ "$build_counter" -le 3 ] || [ "$verified" = false ]; do
 	((build_counter++))
 			
 	# Create a directory for meson
-	sudo mkdir -p $wkdir/nimbix_build
-	sudo chown -R root:root $wkdir
-	sudo chmod -R 0777 $wkdir
+	sudo mkdir -p "$wkdir"/nimbix_build
+	sudo chown -R root:root "$wkdir"
+	sudo chmod -R 0777 "$wkdir"
 	
 	# Compile with meson
 	# (note that meson adds 'bin' to the --prefix directory during build)
-	./meson.py nimbix_build $flags --prefix=$wkdir/install |& tee -a build_log.txt
+	./meson.py nimbix_build "$flags" --prefix="$wkdir"/install |& tee -a build_log.txt
 	
 	# Verify CC env var
 	if grep -q "Using 'CC' from environment with value:" build_log.txt; then
@@ -113,7 +113,7 @@ while [ "$build_counter" -le 3 ] || [ "$verified" = false ]; do
 	
 		# Remove the nimbix_build directory 
 		echo "Meson build unverified. Removing nimbix_build directory."
-		sudo rm -R $wkdir/nimbix_build
+		sudo rm -R "$wkdir"/nimbix_build
 		
 	elif [ "$verified" = true ]; then
 	
@@ -123,8 +123,8 @@ while [ "$build_counter" -le 3 ] || [ "$verified" = false ]; do
 	    export SU2_DATA=/data
 	    export SU2_HOME=/usr/local/SU2
         export SU2_RUN=/usr/local/SU2/install/bin
-        export PATH=$PATH:$SU2_RUN
-        export PYTHONPATH=$PYTHONPATH:$SU2_RUN
+        export PATH="$PATH":"$SU2_RUN"
+        export PYTHONPATH="$PYTHONPATH":"$SU2_RUN"
         # Set environmental variable to allow multi-node use
         export SU2_MPI_COMMAND="mpirun --hostfile /etc/JARVICE/nodes -np %i %s"
 
@@ -139,20 +139,17 @@ while [ "$build_counter" -le 3 ] || [ "$verified" = false ]; do
 	
 done
 
-if [ $build_counter -eq 4 ]; then
+if [ "$build_counter" -eq 4 ]; then
 
 	# Exit the script if build unsuccessful
 	echo "Unable to correctly compile SU2 after 3 attempts."
 	exit 1
 
-elif [ $build_counter -eq 10 ]; then
+elif [ "$build_counter" -eq 10 ]; then
 
     echo "SU2 successfully compiled."
 	
 fi
 
-# Report back to main node that compilation is complete
-main=$(head -n 1 /etc/JARVICE/nodes)
-if [ "$main" != "$HOSTNAME" ]; then
-    echo "$HOSTNAME" | ssh $main -T "cat >> /tmp/node_ready_status.txt"
-fi
+# Record a ready status
+touch /tmp/node_ready_status.txt
