@@ -91,4 +91,4 @@ while [[ -n "$1" ]]; do
 done
 
 # Call the bash file
-"$BASH_FILE"
+source "$BASH_FILE"
