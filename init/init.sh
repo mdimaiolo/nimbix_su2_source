@@ -1,7 +1,21 @@
 #! /bin/bash
 
-# Source the JARVICE job environment variables
-[[ -r /etc/JARVICE/jobenv.sh ]] && source /etc/JARVICE/jobenv.sh
+echo "Verifying all nodes are active."
+
+# start SSHd
+TOOLSDIR="/usr/local/JARVICE/tools/bin"
+${TOOLSDIR}/sshd_start
+
+# Wait for slaves...max of 60 seconds
+SLAVE_CHECK_TIMEOUT=60
+${TOOLSDIR}/python_ssh_test ${SLAVE_CHECK_TIMEOUT}
+ERR=$?
+if [[ ${ERR} -gt 0 ]]; then
+    echo "One or more slaves failed to start" 1>&2
+    exit ${ERR}
+else
+    echo "All nodes active."
+fi
 
 # Ensure the current working directory
 wkdir=/usr/local/SU2
@@ -149,19 +163,6 @@ fi
 
 # Symlink python directories
 sudo ln -s /usr/bin/python3 /usr/bin/python
-
-echo "Verifying all nodes are active."
-
-# Wait for nodes to start
-node_timer=300
-/usr/local/JARVICE/tools/bin/python_ssh_test ${node_timer}
-err=$?
-if [[ ${err} -gt 0 ]]; then
-    echo "One or more nodes failed to start" 1>&2
-    exit ${err}
-else
-    echo "All nodes active."
-fi
 
 echo "Changing to /data/SU2 directory to begin data processing."
 
