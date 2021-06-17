@@ -7,11 +7,11 @@ echo "Verifying all nodes are active."
 
 # start SSHd
 TOOLSDIR="/usr/local/JARVICE/tools/bin"
-${TOOLSDIR}/sshd_start
+sudo ${TOOLSDIR}/sshd_start
 
 # Wait for slaves...max of 60 seconds
 SLAVE_CHECK_TIMEOUT=60
-${TOOLSDIR}/python_ssh_test ${SLAVE_CHECK_TIMEOUT}
+sudo ${TOOLSDIR}/python_ssh_test ${SLAVE_CHECK_TIMEOUT}
 ERR=$?
 if [[ ${ERR} -gt 0 ]]; then
     echo "One or more slaves failed to start" 1>&2
