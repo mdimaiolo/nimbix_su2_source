@@ -4,7 +4,7 @@ sleep 10
 
 # Check connection to each node
 node_count=$(wc -l < "/etc/JARVICE/nodes")
-echo "$node_count nodes in session."
+echo "$node_count node(s) in session."
 nodes_connected=1
 SECONDS=0
 while [ "$nodes_connected" -lt "$node_count" ]; do
@@ -20,8 +20,9 @@ while [ "$nodes_connected" -lt "$node_count" ]; do
             status=$(ssh -o BatchMode=yes -o ConnectTimeout=5 "$node" echo ok 2>&1)
 			if [ "$status" == ok ]; then
 			    echo "$node connection established."
-			elif [ "$status" == "Connection refused" ]; then
-				echo "$node connection refused. Retrying..."
+				((nodes_connected++))
+			else
+				echo "$node not connected. Retrying..."
 			fi
         fi
     done
