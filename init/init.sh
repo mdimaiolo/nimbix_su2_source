@@ -42,7 +42,7 @@ echo "Compiling SU2 on main node"
 /usr/local/SU2/init/compile_SU2.sh
 
 # Ensure key environmental variables are set
-export SU2_DATA=/data
+export SU2_DATA=/data/SU2
 export SU2_HOME=/usr/local/SU2
 export SU2_RUN=/usr/local/SU2/install/bin
 export PATH=$PATH:$SU2_RUN

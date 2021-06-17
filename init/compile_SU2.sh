@@ -120,7 +120,7 @@ while [ "$build_counter" -le 3 ] || [ "$verified" = false ]; do
 		echo "Meson build verified."
 	
 	    # Set environmental variables from meson build
-	    export SU2_DATA=/data
+	    export SU2_DATA=/data/SU2
 	    export SU2_HOME=/usr/local/SU2
         export SU2_RUN=/usr/local/SU2/install/bin
         export PATH=$PATH:$SU2_RUN
