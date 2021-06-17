@@ -3,11 +3,12 @@
 # Compile SU2 on each node in session
 echo "Compiling SU2 on compute nodes"
 
-for node in 'cat /etc/JARVICE/nodes'; do
+while read node; do
+    echo "Initializing $node"
     if [ "$node" != "$HOSTNAME" ]; then
         ssh $node "/usr/local/SU2/init/compile_SU2.sh" &
     fi
-done
+done < /etc/JARVICE/nodes
 
 # Compile SU2 on the main node in the session
 echo "Compiling SU2 on main node"

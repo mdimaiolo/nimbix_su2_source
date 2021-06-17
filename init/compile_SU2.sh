@@ -153,4 +153,6 @@ fi
 
 # Report back to main node that compilation is complete
 main=$(head -n 1 /etc/JARVICE/nodes)
-echo "$HOSTNAME" | ssh $main -T "cat >> /tmp/node_ready_status.txt"
+if [ "$main" != "$HOSTNAME" ]; then
+    echo "$HOSTNAME" | ssh $main -T "cat >> /tmp/node_ready_status.txt"
+fi
