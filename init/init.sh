@@ -3,10 +3,10 @@
 # Compile SU2 on each node in session
 echo "Compiling SU2 on compute nodes"
 
-while read node; do
-    echo "Initializing $node"
+while read node; do   
     if [ "$node" != "$HOSTNAME" ]; then
-        ssh "$node" "/usr/local/SU2/init/compile_SU2.sh" &
+        echo "Initializing $node"
+        ssh $node "/usr/local/SU2/init/compile_SU2.sh" &
     fi
 done < /etc/JARVICE/nodes
 
@@ -27,9 +27,9 @@ while [ "$nodes_ready" -lt "$node_count" ]; do
 	fi
 	sleep 5s
 	while read node; do
-        echo "Checking $node status"
         if [ "$node" != "$HOSTNAME" ]; then
-            ssh "$node" "test -e /tmp/node_ready_status.txt"
+            echo "Checking $node status"
+            ssh $node "test -e /tmp/node_ready_status.txt"
 		    if [ $? -eq 0 ]; then
 			    ((nodes_ready++))
 			fi
