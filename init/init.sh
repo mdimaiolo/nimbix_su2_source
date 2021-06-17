@@ -4,6 +4,7 @@ sleep 10
 
 # Check connection to each node
 node_count=$(wc -l < "/etc/JARVICE/nodes")
+echo "$node_count nodes in session."
 nodes_connected=1
 SECONDS=0
 while [ "$nodes_connected" -lt "$node_count" ]; do
@@ -13,7 +14,7 @@ while [ "$nodes_connected" -lt "$node_count" ]; do
 		exit 1
 	fi
 	sleep 5s
-    while read node; do   
+    for node in $(cat /etc/JARVICE/nodes); do   
         if [ "$node" != "$HOSTNAME" ]; then
             echo "Checking connection to $node"
             status=$(ssh -o BatchMode=yes -o ConnectTimeout=5 "$node" echo ok 2>&1)
@@ -23,17 +24,17 @@ while [ "$nodes_connected" -lt "$node_count" ]; do
 				echo "$node connection refused. Retrying..."
 			fi
         fi
-    done < /etc/JARVICE/nodes
+    done
 done
 
 # Compile SU2 on each node in session
 echo "Compiling SU2 on compute nodes"
-while read node; do   
+for node in $(cat /etc/JARVICE/nodes); do   
     if [ "$node" != "$HOSTNAME" ]; then
         echo "Initializing $node"
         ssh $node "/usr/local/SU2/init/compile_SU2.sh" &
     fi
-done < /etc/JARVICE/nodes
+done
 
 # Compile SU2 on the main node in the session
 echo "Compiling SU2 on main node"
@@ -50,7 +51,7 @@ while [ "$nodes_ready" -lt "$node_count" ]; do
 		exit 1
 	fi
 	sleep 5s
-	while read node; do
+	for node in $(cat /etc/JARVICE/nodes); do
         if [ "$node" != "$HOSTNAME" ]; then
             echo "Checking $node status"
             ssh $node "test -e /tmp/node_ready_status.txt"
@@ -58,7 +59,7 @@ while [ "$nodes_ready" -lt "$node_count" ]; do
 			    ((nodes_ready++))
 			fi
         fi
-    done < /etc/JARVICE/nodes
+    done
 done
 
 echo "All nodes initialized."
