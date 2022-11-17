@@ -12,7 +12,7 @@ export MPICC=/usr/bin/mpicc
 export MPICXX=/usr/bin/mpicxx
 export CC=$MPICC
 export CXX=$MPICXX
-export CXXFLAGS="-O2 -funroll-loops -march=native -mtune=native"
+export CXXFLAGS="-O3 -funroll-loops -march=native -mtune=native"
 
 # Set the appropriate flags for the desired install options
 flags="-Dcustom-mpi=true -Denable-pywrapper=true -Denable-autodiff=true -Denable-directdiff=true -Denable-mixedprec=true"
