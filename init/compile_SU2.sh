@@ -15,7 +15,7 @@ export CXX=$MPICXX
 export CXXFLAGS="-O3 -funroll-loops -march=native -mtune=native"
 
 # Set the appropriate flags for the desired install options
-flags="-Dcustom-mpi=true -Denable-mixedprec=true"
+flags="-Dcustom-mpi=true -Denable-pywrapper=true -Denable-autodiff=true -Denable-directdiff=true -Denable-mixedprec=true"
 
 # Compile and verify the above flags compiled correctly
 verified=false
