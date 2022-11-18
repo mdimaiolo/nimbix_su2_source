@@ -7,6 +7,18 @@ sudo ln -s /usr/bin/python3 /usr/bin/python
 wkdir=/usr/local/SU2
 cd $wkdir
 
+# The next block was added due to compilation issues with CoDi, MeDi, Meson, Ninja, and Mutationpp
+rm -r $wkdir/externals/codi
+rm -r $wkdir/externals/medi
+rm -r $wkdir/externals/meson
+rm -r $wkdir/externals/ninja
+rm -r $wkdir/subprojects/Mutationpp
+mkdir $wkdir/externals/codi
+mkdir $wkdir/externals/medi
+mkdir $wkdir/externals/meson
+mkdir $wkdir/externals/ninja
+mkdir $wkdir/subprojects/Mutationpp
+
 # Set the initial environmental variables
 export MPICC=/usr/bin/mpicc
 export MPICXX=/usr/bin/mpicxx

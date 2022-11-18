@@ -68,7 +68,7 @@ if __name__ == '__main__':
     raise Exception("Script must be run using Python 3")
    
   # Set up the build environment, i.e. clone or download all submodules
-  init_submodules('url')
+  init_submodules('auto')
 
   # Build ninja if it cannot be found
   build_ninja()
